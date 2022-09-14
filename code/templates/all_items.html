@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Items</title>
+</head>
+<body>
+  <form action="{% url 'get_order' %}">
+    {% for item in items %}
+      <h3>{{ item.name }}</h3>
+      <p>{{ item.description }}</p>
+      <p>{{ item.price }}</p>
+      <input type="checkbox" name="{{ item.name }}"> Add to order
+    {% endfor %}
+    <br>
+    <input type="submit" value="Create order" class="btn btn-success">
+  </form>
+</body>
+</html>
