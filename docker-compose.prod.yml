@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ./code
+      dockerfile: Dockerfile.prod
+    container_name: app_container
+    restart: unless-stopped
+    expose:
+      - 8000
+    env_file:
+      - ./.env_prod
+    volumes:
+      - code:/usr/src/code
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
+    networks:
+      - app-network
+
+  nginx:
+    build: ./nginx
+    container_name: nginx_container
+    restart: always
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - nginx:/nginx
+      - dhparam:/etc/ssl/certs/
+      - certbot-etc:/etc/letsencrypt/
+      - certbot-var:/var/lib/letsencrypt/
+      - web-root:/var/www/html
+    networks:
+      - app-network
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot_container
+    depends_on:
+      - nginx
+    volumes:
+      - certbot-etc:/etc/letsencrypt/
+      - certbot-var:/var/lib/letsencrypt/
+      - web-root:/var/www/html
+    networks:
+      - app-network
+    command: certonly --webroot --webroot-path=/var/www/html --email fickle041@gmail.com --agree-tos --no-eff-email --staging -d fickle-genpasswords.tk -d www.fickle-genpasswords.tk
+volumes:
+  code:
+  nginx:
+  certbot-etc:
+  certbot-var:
+  web-root:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/admin/generator_passwords/code
+      o: bind
+  dhparam:
+    driver: local
+    driver_opts:
+     type: none
+     device: /home/admin/generator_passwords/nginx/dhparam/
+     o: bind
+networks:
+  app-network:
+    driver: bridge
