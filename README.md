@@ -20,7 +20,7 @@ for local:
 3) create .env_dev in project root with SECRET_KEY=DJANGO-SECRET_KEY, DEBUG=1, ALLOWED_HOSTS=localhost 127.0.0.1, API_KEY=YOUR_STRIPE_SECRET_KEY
 4) delete line CSRF_TRUSTED_ORIGINS in setting.py
 5) use command docker-compose up -d --build
-6) make migrations, migrate and createsuperuser inside web container: docker-compose exec web python manage.py makemigrations && python manage.py migrate && python manage.py createsuperuser
+6) create superuser inside web container: docker-compose exec web python manage.py makemigrations && python manage.py migrate && python manage.py createsuperuser
 done
 
 for prod:
@@ -32,5 +32,5 @@ for prod:
 6) use command: docker-compose -f docker-compose.prod.yml up -d --build
 7) rename in /nginx nginx.conf to cache_nossl.txt and cache_ssl.txt to nginx.conf
 8) rebuild and reup nginx container: docker-compose -f docker-compose.prod.yml up -d --build --no-deps nginx
-9) make migrations, migrate and createsuperuser inside app container: docker-compose -f docker-compose.prod.yml exec app python manage.py makemigrations && python manage.py migrate && python manage.py createsuperuser
+9)create superuser inside app container: docker-compose -f docker-compose.prod.yml exec app python manage.py createsuperuser
 done
