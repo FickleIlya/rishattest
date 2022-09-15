@@ -7,6 +7,9 @@ APIs routes
 3) GET api/v1/buy/<itemId> - buy item
 4) GET api/v1/order/<orderId> - get order info
 5) POST api/v1/order/<orderId> - buy order
+6) GET api/v1/cancel - buy order/item canceled
+7) GET api/v1/success - buy order/item success
+
 
 
 docker setup
