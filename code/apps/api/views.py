@@ -17,14 +17,16 @@ class GetAllItems(APIView):
 
     def get(self, request):
         items = Item.objects.all()
-        response = {
-            "items": [{
-                "name": item.name,
-                "description": item.description,
-                "price": item.price
-            } for item in items]
-        }
-        return Response({"items": items}, template_name="all_items.html")
+        if items:
+            response = {
+                "items": [{
+                    "name": item.name,
+                    "description": item.description,
+                    "price": item.price
+                } for item in items]
+            }
+            return Response({"items": items}, template_name="all_items.html")
+        return HttpResponse(status=404, content="Items not found")
 
 
 class GetOrder(APIView):
