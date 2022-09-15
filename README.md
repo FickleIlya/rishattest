@@ -24,8 +24,8 @@ for local:
 <br>
 <br>
 done
-<br>
 for prod:
+
 1) clone repository
 2) create .env_prod in project root with SECRET_KEY=DJANGO-SECRET_KEY, DEBUG=0, ALLOWED_HOSTS=<YOUR_DOMAIN OR IP> <YOUR_DOMAIN OR IP> ... <YOUR_DOMAIN OR IP>, API_KEY=YOUR_STRIPE_SECRET_KEY
 3) put your_domain and your_email in docker-compose.prod.yml, cache_nossl.txt, nginx.conf
