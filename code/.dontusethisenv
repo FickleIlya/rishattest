@@ -1,4 +1,0 @@
-SECRET_KEY=django-insecure-gan-v##ukdr4k^%l-u6v&fo5)=m-sb*rgvq$r1f7=-%b8%fknw
-DEBUG=1
-ALLOWED_HOSTS=localhost 127.0.0.1
-API_KEY=sk_test_51Lhf2hFUMr73OhP6l8h9dPMoUO0qiFqFh4rLbo2t0HIGT8rOrL4Vk9SsKUoXy8de6KcH2rWYz2wA4YepU6s4EKvq00mUU4yEL6
