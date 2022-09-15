@@ -12,8 +12,9 @@
   {% endfor %}
 
   <h1>Total price: ${{ total }}</h1>
-  <form action="{% url 'buy_order' order_id %}" method="GET">
-        <button id="buy-button">Buy</button>
-    </form>
+  <form action="{% url 'order' order_id %}" method="POST">
+      {% csrf_token %}
+      <button id="buy-button">Buy</button>
+  </form>
 </body>
 </html>

@@ -8,7 +8,7 @@
     <h1>{{ item.name }}</h1>
     <p>{{ item.description }}</p>
     <p>{{ item.price }} cents </p>
-    <form action="{% url 'buy' item.id %}" method="GET">
+    <form action="{% url 'buy_item' item_id %}" method="GET">
         <button id="buy-button">Buy</button>
     </form>
 </body>
