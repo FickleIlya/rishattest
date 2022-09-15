@@ -76,8 +76,8 @@ class BuyItem(APIView):
         )
         session = stripe.checkout.Session.create(
             mode='payment',
-            success_url='http://127.0.0.1:8000/api/v1/success',
-            cancel_url='http://127.0.0.1:8000/api/v1/cancel',
+            success_url=f'https://{os.environ["ALLOWED_HOSTS"].split()[0]}/api/v1/success',
+            cancel_url=f'http://{os.environ["ALLOWED_HOSTS"].split()[0]}/api/v1/cancel',
             line_items=[
                 {
                     'price': price.id,
@@ -107,8 +107,8 @@ class BuyOrder(APIView):
 
         session = stripe.checkout.Session.create(
             mode='payment',
-            success_url='http://127.0.0.1:8000/api/v1/success',
-            cancel_url='http://127.0.0.1:8000/api/v1/cancel',
+            success_url=f'https://{os.environ["ALLOWED_HOSTS"].split()[0]}/api/v1/success',
+            cancel_url=f'http://{os.environ["ALLOWED_HOSTS"].split()[0]}/api/v1/cancel',
             line_items=price_list
         )
         return HttpResponseRedirect(session.url, status=303)
