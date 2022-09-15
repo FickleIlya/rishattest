@@ -18,7 +18,7 @@ for local:
 4) delete line CSRF_TRUSTED_ORIGINS in setting.py
 5) use command docker-compose up -d --build
 6) create superuser inside web container: docker-compose exec web python manage.py makemigrations && python manage.py migrate && python manage.py createsuperuser
-done
+<br>done
 
 for prod:
 1) clone repository
@@ -29,5 +29,5 @@ for prod:
 6) use command: docker-compose -f docker-compose.prod.yml up -d --build
 7) rename in /nginx nginx.conf to cache_nossl.txt and cache_ssl.txt to nginx.conf
 8) rebuild and reup nginx container: docker-compose -f docker-compose.prod.yml up -d --build --no-deps nginx
-9)create superuser inside app container: docker-compose -f docker-compose.prod.yml exec app python manage.py createsuperuser
-done
+9) create superuser inside app container: docker-compose -f docker-compose.prod.yml exec app python manage.py createsuperuser
+<br>done
