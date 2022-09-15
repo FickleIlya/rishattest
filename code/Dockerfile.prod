@@ -33,6 +33,6 @@ RUN pip install --no-cache /wheels/*
 
 COPY . $APP_HOME
 
-RUN chown -R code:code $APP_HOME
+RUN chown -R code:code $APP_HOME && chown g+rw db.sqlite3
 
 USER code

@@ -46,7 +46,7 @@ services:
       - web-root:/var/www/html
     networks:
       - app-network
-    command: certonly --webroot --webroot-path=/var/www/html --email fickle041@gmail.com --agree-tos --no-eff-email --staging -d fickle-genpasswords.tk -d www.fickle-genpasswords.tk
+    command: certonly --webroot --webroot-path=/var/www/html --email fickle041@gmail.com --agree-tos --no-eff-email --force-renewal -d fickle-rishattest.tk -d www.fickle-rishattest.tk
 volumes:
   code:
   nginx:
@@ -56,13 +56,13 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/admin/generator_passwords/code
+      device: /home/admin/rishattest/code
       o: bind
   dhparam:
     driver: local
     driver_opts:
      type: none
-     device: /home/admin/generator_passwords/nginx/dhparam/
+     device: /home/admin/rishattest/nginx/dhparam/
      o: bind
 networks:
   app-network:
