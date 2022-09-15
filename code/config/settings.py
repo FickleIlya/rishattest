@@ -136,5 +136,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # csrf
 
-CSRF_TRUSTED_ORIGINS = os.environ['CSRF_TRUSTED_ORIGINS'].split()
+# CSRF_TRUSTED_ORIGINS = os.environ['CSRF_TRUSTED_ORIGINS'].split()
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

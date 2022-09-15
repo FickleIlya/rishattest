@@ -1,5 +1,6 @@
 import os
 
+import shortuuid
 from django.http import HttpResponse, HttpResponseRedirect
 import stripe
 from rest_framework.renderers import TemplateHTMLRenderer
@@ -13,6 +14,7 @@ stripe.api_key = os.environ["API_KEY"]
 
 class GetAllItems(APIView):
     renderer_classes = [TemplateHTMLRenderer]
+
     def get(self, request):
         items = Item.objects.all()
         response = {
@@ -29,9 +31,19 @@ class GetOrder(APIView):
     renderer_classes = [TemplateHTMLRenderer]
 
     def get(self, request):
-        # TODO
-        order = Order.objects.create()
-        return Response(self.request.query_params.getlist())
+        order_id = shortuuid.uuid()
+        order = Order.objects.create(order_id=order_id)
+
+        items = request.query_params
+        total = 0
+        for item_id in items:
+            item = Item.objects.get(id=item_id)
+            order.item_set.add(item, bulk=False)
+            total += int(item.price)
+
+        total /= 100
+        return Response({"order_id": order.order_id, "order": order.item_set.all(), "total": total},
+                        template_name="order_info.html")
 
 
 class GetItem(APIView):
@@ -77,6 +89,7 @@ class BuyItem(APIView):
 
 
 class BuyOrder(APIView):
+
     def get(self, request, order_id):
         order = Order.objects.get(order_id=order_id)
         price_list = []

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Info</title>
+</head>
+<body>
+  {% for item in order %}
+    <h2>{{ item.name }}</h2>
+    <p>{{ item.description }}</p>
+    <p>{{ item.price }} cents</p>
+  {% endfor %}
+
+  <h1>Total price: ${{ total }}</h1>
+  <form action="{% url 'buy_order' order_id %}" method="GET">
+        <button id="buy-button">Buy</button>
+    </form>
+</body>
+</html>
