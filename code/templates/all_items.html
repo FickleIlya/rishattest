@@ -5,7 +5,8 @@
     <title>Items</title>
 </head>
 <body>
-  <form action="{% url 'order' order_id %}" method="GET">
+  <form action="{% url 'create_order' %}" method="POST">
+    {% csrf_token %}
     {% for item in items %}
       <h3>{{ item.name }}</h3>
       <p>{{ item.description }}</p>
