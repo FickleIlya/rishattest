@@ -5,10 +5,11 @@ APIs routes
 1) GET api/v1/items - list of all items
 2) GET api/v1/item/<itemId> - item info
 3) GET api/v1/buy/<itemId> - buy item
-4) GET api/v1/order/<orderId> - get order info
-5) POST api/v1/order/<orderId> - buy order
-6) GET api/v1/cancel - buy order/item canceled
-7) GET api/v1/success - buy order/item success
+4) POST api/v1/order - create order with data = {"<item_id>": ["on"], ... , "<item_id>": ["on"]}, redirect to order info
+5) GET api/v1/order/<orderId> - get order info 
+6) POST api/v1/order/<orderId> - buy order 
+7) GET api/v1/cancel - buy order/item canceled 
+8) GET api/v1/success - buy order/item success
 
 
 
