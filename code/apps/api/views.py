@@ -31,23 +31,30 @@ class GetAllItems(APIView):
         return HttpResponse(status=404, content="Items not found")
 
 
+class OrderCreateAPI(APIView):
+    parser_classes = (MultiPartParser, FormParser, JSONParser)
+
+    def post(self, request):
+        order_id = shortuuid.uuid()
+        order = Order.objects.create(order_id=order_id)
+        items = request.data
+        for item_id in items:
+            if item_id != 'csrfmiddlewaretoken':
+                item = Item.objects.get(id=item_id)
+                order.item_set.add(item, bulk=False)
+
+        return HttpResponseRedirect(order_id)
+
+
 class OrderAPI(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     parser_classes = (MultiPartParser, FormParser, JSONParser)
 
     def get(self, request, order_id):
-        # order_id = shortuuid.uuid()
-        print(request.query_params)
-        order = Order.objects.create(order_id=order_id)
+        order = Order.objects.get(order_id=order_id)
+        items = order.item_set.all()
 
-        items = request.query_params
-        total = 0
-        for item_id in items:
-            item = Item.objects.get(id=item_id)
-            order.item_set.add(item, bulk=False)
-            total += int(item.price)
-
-        total /= 100
+        total = sum([int(item.price) for item in items])/100
         return Response({"order_id": order_id, "order": order.item_set.all(), "total": total},
                         template_name="order_info.html")
 
