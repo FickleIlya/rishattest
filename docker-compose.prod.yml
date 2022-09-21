@@ -48,7 +48,7 @@ services:
       - web-root:/var/www/html
     networks:
       - app-network
-    command: certonly --webroot --webroot-path=/var/www/html --email fickle041@gmail.com --agree-tos --no-eff-email --force-renewal -d fickle-rishattest.tk -d www.fickle-rishattest.tk
+    command: certonly --webroot --webroot-path=/var/www/html --email your_email --agree-tos --no-eff-email --force-renewal -d your_domain -d www.your_domain
 volumes:
   code:
   nginx:
@@ -58,13 +58,13 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: home/admin/rishattest/code
+      device: your_path/code
       o: bind
   dhparam:
     driver: local
     driver_opts:
      type: none
-     device: home/admin/rishattest/nginx/dhparam/
+     device: your_path/nginx/dhparam/
      o: bind
 networks:
   app-network:
