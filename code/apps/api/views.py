@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 
 from core.models import Item, Order
 
-from .serializers import ItemSerializer
+from .serializers import ItemSerializer, OrderSerializer
 
 stripe.api_key = os.environ["API_KEY"]
 
@@ -21,6 +21,7 @@ class GetAllItems(APIView):
         if items:
             response = {
                 "items": [{
+                    "id": item.pk,
                     "name": item.name,
                     "description": item.description,
                     "price": item.price
@@ -34,15 +35,17 @@ class OrderCreateAPI(APIView):
     parser_classes = (MultiPartParser, FormParser, JSONParser)
 
     def post(self, request):
-        order_id = shortuuid.uuid()
-        order = Order.objects.create(order_id=order_id)
-        items = request.data
-        for item_id in items:
-            if item_id != 'csrfmiddlewaretoken':
-                item = Item.objects.get(id=item_id)
-                order.item_set.add(item, bulk=False)
+        items = self.request.data
+        if items:
+            order_id = shortuuid.uuid()
+            order = Order.objects.create(order_id=order_id)
+            for item_id in items:
+                if item_id != 'csrfmiddlewaretoken':
+                    item = Item.objects.get(id=item_id)
+                    order.items.add(item)
 
-        return HttpResponseRedirect(f"/order/{order_id}")
+            return Response({"order_id": order.order_id})
+        return HttpResponse(status=404, content="Items is empty")
 
 
 class OrderAPI(APIView):
@@ -54,16 +57,7 @@ class OrderAPI(APIView):
         except:
             return HttpResponse(status=404, content="Order not found")
         else:
-            response = {
-                "order_id": order_id,
-                "items": [
-                    {
-                        "name": item.name,
-                        "description": item.description,
-                        "price": item.price,
-                    } for item in order.item_set.all()
-                ]
-            }
+            response = OrderSerializer(order).data
             return Response(response)
 
     def post(self, request, order_id):

@@ -11,7 +11,7 @@ urlpatterns = [
     path('item/<int:item_id>/', GetItem.as_view(), name='item'),
 
     path('order/<str:order_id>/', OrderAPI.as_view(), name='order'),
-    path('order/', OrderCreateAPI.as_view(), name='create_order'),
+    path('order', OrderCreateAPI.as_view(), name='create_order'),
 
     path('success/', SuccessUrl.as_view(), name='success'),
     path('cancel/', CancelUrl.as_view(), name='cancel')
