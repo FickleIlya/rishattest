@@ -8,7 +8,8 @@
     <h1>{{ item.name }}</h1>
     <p>{{ item.description }}</p>
     <p>{{ item.price }} cents </p>
-    <form action="{% url 'buy_item' item_id %}" method="GET">
+    <form action="{% url 'api:buy_item' item.id %}" method="POST">
+        {% csrf_token %}
         <button id="buy-button">Buy</button>
     </form>
 </body>

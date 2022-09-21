@@ -13,7 +13,9 @@ services:
       - ./.env_prod
     volumes:
       - code:/usr/src/code
-    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
+    command: sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             gunicorn config.wsgi:application --bind 0.0.0.0:8000"
     networks:
       - app-network
 
@@ -46,7 +48,7 @@ services:
       - web-root:/var/www/html
     networks:
       - app-network
-    command: certonly --webroot --webroot-path=/var/www/html --email YOUR_EMAIL --agree-tos --no-eff-email --force-renewal -d YOUR_DOMAIN -d www.YOUR_DOMAIN
+    command: certonly --webroot --webroot-path=/var/www/html --email fickle041@gmail.com --agree-tos --no-eff-email --force-renewal -d fickle-rishattest.tk -d www.fickle-rishattest.tk
 volumes:
   code:
   nginx:
@@ -56,13 +58,13 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: YOUR_PWD/rishattest/code
+      device: home/admin/rishattest/code
       o: bind
   dhparam:
     driver: local
     driver_opts:
      type: none
-     device: YOUR_PWD/rishattest/nginx/dhparam/
+     device: home/admin/rishattest/nginx/dhparam/
      o: bind
 networks:
   app-network:
