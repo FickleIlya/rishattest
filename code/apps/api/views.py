@@ -1,15 +1,16 @@
 import os
+import sys
 
 import shortuuid
-from django.http import HttpResponse, HttpResponseRedirect
 import stripe
+from django.http import HttpResponse, HttpResponseRedirect
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from core.models import Item, Order
-
 from .serializers import ItemSerializer, OrderSerializer
+
+from core.models import Item, Order
 
 stripe.api_key = os.environ["API_KEY"]
 
@@ -85,7 +86,7 @@ class OrderAPI(APIView):
                     success_url=f'https://{os.environ["ALLOWED_HOSTS"].split()[0]}/api/v1/success',
                     cancel_url=f'http://{os.environ["ALLOWED_HOSTS"].split()[0]}/api/v1/cancel',
                     line_items=price_list
-                    )
+                )
                 return HttpResponseRedirect(session.url, status=303)
             return HttpResponse(status=404, content="Order is empty")
 

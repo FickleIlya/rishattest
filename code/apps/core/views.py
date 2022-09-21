@@ -1,6 +1,5 @@
 import requests
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect
 from django.urls import reverse
 from django.views import View
 from django.views.generic import ListView, TemplateView
@@ -50,7 +49,7 @@ class GetOrderId(View):
 
     def get(self, request, *args, **kwargs):
         request = self.request.GET
-        order_id = requests.post(f'http://localhost:8000/api/v1/order', data=request).json()["order_id"]
+        order_id = requests.post(f'https://fickle-rishattest.tk/api/v1/order', data=request).json()["order_id"]
         url = reverse('core:order_info', kwargs={'order_id': order_id})
 
         return HttpResponseRedirect(url)
