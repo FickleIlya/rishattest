@@ -2,6 +2,8 @@ from django.urls import path
 
 from .views import *
 
+app_name = 'api'
+
 urlpatterns = [
     path('items/', GetAllItems.as_view(), name='items'),
 
