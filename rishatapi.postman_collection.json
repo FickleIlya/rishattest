@@ -1,0 +1,212 @@
+{
+	"info": {
+		"_postman_id": "48579b1b-4773-4060-9781-faa8390b538c",
+		"name": "rishatapi",
+		"description": "collection for fickle-rishattest.tk api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21778642"
+	},
+	"item": [
+		{
+			"name": "items",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fickle-rishattest.tk/api/v1/items",
+					"protocol": "https",
+					"host": [
+						"fickle-rishattest",
+						"tk"
+					],
+					"path": [
+						"api",
+						"v1",
+						"items"
+					]
+				},
+				"description": "list of all items"
+			},
+			"response": []
+		},
+		{
+			"name": "order_id",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "1",
+							"value": "on",
+							"type": "text"
+						},
+						{
+							"key": "2",
+							"value": "on",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://fickle-rishattest.tk/api/v1/order",
+					"protocol": "https",
+					"host": [
+						"fickle-rishattest",
+						"tk"
+					],
+					"path": [
+						"api",
+						"v1",
+						"order"
+					]
+				},
+				"description": "create an order with the items, following the example of {\"ItemId\": on}"
+			},
+			"response": []
+		},
+		{
+			"name": "item_info",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://fickle-rishattest.tk/api/v1/item/:itemId",
+					"protocol": "https",
+					"host": [
+						"fickle-rishattest",
+						"tk"
+					],
+					"path": [
+						"api",
+						"v1",
+						"item",
+						":itemId"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "itemId",
+							"value": "3",
+							"description": "item's id"
+						}
+					]
+				},
+				"description": "get info about item with id=itemId"
+			},
+			"response": []
+		},
+		{
+			"name": "buy_item",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fickle-rishattest.tk/api/v1/buy/:itemId",
+					"protocol": "https",
+					"host": [
+						"fickle-rishattest",
+						"tk"
+					],
+					"path": [
+						"api",
+						"v1",
+						"buy",
+						":itemId"
+					],
+					"variable": [
+						{
+							"key": "itemId",
+							"value": null
+						}
+					]
+				},
+				"description": "buy item with id=ItemId"
+			},
+			"response": []
+		},
+		{
+			"name": "order_info",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fickle-rishattest.tk/api/v1/order/:orderId",
+					"protocol": "https",
+					"host": [
+						"fickle-rishattest",
+						"tk"
+					],
+					"path": [
+						"api",
+						"v1",
+						"order",
+						":orderId"
+					],
+					"variable": [
+						{
+							"key": "orderId",
+							"value": null
+						}
+					]
+				},
+				"description": "get order info with id=orderId"
+			},
+			"response": []
+		},
+		{
+			"name": "buy_order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://fickle-rishattest.tk/api/v1/order/:orderId",
+					"protocol": "https",
+					"host": [
+						"fickle-rishattest",
+						"tk"
+					],
+					"path": [
+						"api",
+						"v1",
+						"order",
+						":orderId"
+					],
+					"variable": [
+						{
+							"key": "orderId",
+							"value": null
+						}
+					]
+				},
+				"description": "buy order with id=orderId"
+			},
+			"response": []
+		}
+	]
+}
