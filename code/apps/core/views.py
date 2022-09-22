@@ -7,7 +7,6 @@ from django.views.generic import ListView, TemplateView
 from .models import Item, Order
 
 
-# Create your views here.
 class ViewItems(ListView):
     model = Item
     template_name = "all_items.html"

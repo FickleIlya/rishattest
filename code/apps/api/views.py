@@ -1,5 +1,4 @@
 import os
-import sys
 
 import shortuuid
 import stripe
@@ -68,7 +67,7 @@ class OrderAPI(APIView):
             return HttpResponse(status=404, content="Order not found")
         else:
             price_list = []
-            if items := order.item_set.all():
+            if items := order.items.all():
                 for item in items:
                     product = stripe.Product.create(
                         name=item.name,
@@ -102,6 +101,45 @@ class GetItem(APIView):
             response = ItemSerializer(item)
             return Response(response.data)
 
+    def post(self, request, item_id):
+
+        try:
+            item = Item.objects.get(id=item_id)
+        except:
+            data = request.data
+            item = Item.objects.create(id=item_id,
+                                       name=data["name"],
+                                       description=data["description"],
+                                       price=data["price"])
+            data["id"] = item_id
+            return Response(data, status=201)
+        else:
+            return HttpResponse(status=404, content="Id already taken")
+
+    def delete(self, request, item_id):
+        try:
+            item = Item.objects.get(id=item_id)
+        except:
+            return HttpResponse(status=404, content="Item not found")
+        else:
+            item.delete()
+            return Response(status=204)
+
+    def put(self, request, item_id):
+        try:
+            item = Item.objects.get(id=item_id)
+        except:
+            return HttpResponse(status=404, content="Item not found")
+        else:
+            data = request.data
+            item.name = data["name"]
+            item.description = data["description"]
+            item.price = data["price"]
+            item.save()
+
+            data["id"] = item_id
+            return Response(data, status=200)
+
 
 class BuyItem(APIView):
     parser_classes = (MultiPartParser, FormParser, JSONParser)
@@ -124,7 +162,7 @@ class BuyItem(APIView):
             session = stripe.checkout.Session.create(
                 mode='payment',
                 success_url=f'https://{os.environ["ALLOWED_HOSTS"].split()[0]}/api/v1/success',
-                cancel_url=f'http://{os.environ["ALLOWED_HOSTS"].split()[0]}/api/v1/cancel',
+                cancel_url=f'https://{os.environ["ALLOWED_HOSTS"].split()[0]}/api/v1/cancel',
                 line_items=[
                     {
                         'price': price.id,
