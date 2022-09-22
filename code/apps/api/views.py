@@ -102,6 +102,45 @@ class GetItem(APIView):
             response = ItemSerializer(item)
             return Response(response.data)
 
+    def post(self, request, item_id):
+
+        try:
+            item = Item.objects.get(id=item_id)
+        except:
+            data = request.data
+            item = Item.objects.create(id=item_id,
+                                       name=data["name"],
+                                       description=data["description"],
+                                       price=data["price"])
+            data["id"] = item_id
+            return Response(data, status=201)
+        else:
+            return HttpResponse(status=404, content="Id already taken")
+
+    def delete(self, request, item_id):
+        try:
+            item = Item.objects.get(id=item_id)
+        except:
+            return HttpResponse(status=404, content="Item not found")
+        else:
+            item.delete()
+            return Response(status=204)
+
+    def put(self, request, item_id):
+        try:
+            item = Item.objects.get(id=item_id)
+        except:
+            return HttpResponse(status=404, content="Item not found")
+        else:
+            data = request.data
+            item.name = data["name"]
+            item.description = data["description"]
+            item.price = data["price"]
+            item.save()
+
+            data["id"] = item_id
+            return Response(data, status=200)
+
 
 class BuyItem(APIView):
     parser_classes = (MultiPartParser, FormParser, JSONParser)
