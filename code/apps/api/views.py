@@ -1,5 +1,4 @@
 import os
-import sys
 
 import shortuuid
 import stripe
@@ -68,7 +67,7 @@ class OrderAPI(APIView):
             return HttpResponse(status=404, content="Order not found")
         else:
             price_list = []
-            if items := order.item_set.all():
+            if items := order.items.all():
                 for item in items:
                     product = stripe.Product.create(
                         name=item.name,
@@ -163,7 +162,7 @@ class BuyItem(APIView):
             session = stripe.checkout.Session.create(
                 mode='payment',
                 success_url=f'https://{os.environ["ALLOWED_HOSTS"].split()[0]}/api/v1/success',
-                cancel_url=f'http://{os.environ["ALLOWED_HOSTS"].split()[0]}/api/v1/cancel',
+                cancel_url=f'https://{os.environ["ALLOWED_HOSTS"].split()[0]}/api/v1/cancel',
                 line_items=[
                     {
                         'price': price.id,
