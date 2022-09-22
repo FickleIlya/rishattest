@@ -13,15 +13,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://fickle-rishattest.tk/api/v1/items",
-					"protocol": "https",
+					"raw": "{{url}}/items",
 					"host": [
-						"fickle-rishattest",
-						"tk"
+						"{{url}}"
 					],
 					"path": [
-						"api",
-						"v1",
 						"items"
 					]
 				},
@@ -30,39 +26,42 @@
 			"response": []
 		},
 		{
-			"name": "order_id",
+			"name": "create_item",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json()\r",
+							"pm.environment.set(\"itemId\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "1",
-							"value": "on",
-							"type": "text"
-						},
-						{
-							"key": "2",
-							"value": "on",
-							"type": "text"
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{$randomProduct}}\",\r\n    \"description\": \"{{$randomWords}}\",\r\n    \"price\": \"{{$randomInt}}00\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
 						}
-					]
+					}
 				},
 				"url": {
-					"raw": "https://fickle-rishattest.tk/api/v1/order",
-					"protocol": "https",
+					"raw": "{{url}}/item/{{$randomInt}}",
 					"host": [
-						"fickle-rishattest",
-						"tk"
+						"{{url}}"
 					],
 					"path": [
-						"api",
-						"v1",
-						"order"
+						"item",
+						"{{$randomInt}}"
 					]
 				},
-				"description": "create an order with the items, following the example of {\"ItemId\": on}"
+				"description": "create item with id=randomInt and random data"
 			},
 			"response": []
 		},
@@ -73,7 +72,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							""
+							"var itemId = pm.environment.get(\"itemId\");"
 						],
 						"type": "text/javascript"
 					}
@@ -81,72 +80,143 @@
 			],
 			"request": {
 				"method": "GET",
-				"header": [
-					{
-						"key": "",
-						"value": "",
-						"type": "text",
-						"disabled": true
-					}
-				],
+				"header": [],
 				"url": {
-					"raw": "https://fickle-rishattest.tk/api/v1/item/:itemId",
-					"protocol": "https",
+					"raw": "{{url}}/item/{{itemId}}",
 					"host": [
-						"fickle-rishattest",
-						"tk"
+						"{{url}}"
 					],
 					"path": [
-						"api",
-						"v1",
 						"item",
-						":itemId"
-					],
-					"query": [
-						{
-							"key": "",
-							"value": null,
-							"disabled": true
-						}
-					],
-					"variable": [
-						{
-							"key": "itemId",
-							"value": "3",
-							"description": "item's id"
-						}
+						"{{itemId}}"
 					]
 				},
-				"description": "get info about item with id=itemId"
+				"description": "get info about item by item's id from environment"
+			},
+			"response": []
+		},
+		{
+			"name": "change_item_info",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{$randomProduct}}\",\r\n    \"description\": \"{{$randomWord}}\",\r\n    \"price\": \"9999\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/item/{{itemId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"item",
+						"{{itemId}}"
+					]
+				},
+				"description": "change item info by item's id from environment"
 			},
 			"response": []
 		},
 		{
 			"name": "buy_item",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "https://fickle-rishattest.tk/api/v1/buy/:itemId",
-					"protocol": "https",
+					"raw": "{{url}}/buy/{{itemId}}",
 					"host": [
-						"fickle-rishattest",
-						"tk"
+						"{{url}}"
 					],
 					"path": [
-						"api",
-						"v1",
 						"buy",
-						":itemId"
-					],
-					"variable": [
-						{
-							"key": "itemId",
-							"value": null
-						}
+						"{{itemId}}"
 					]
 				},
-				"description": "buy item with id=ItemId"
+				"description": "buy item with id from environment"
+			},
+			"response": []
+		},
+		{
+			"name": "delete_item",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"itemId\", null);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/item/{{itemId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"item",
+						"{{itemId}}"
+					]
+				},
+				"description": "delete item by id from enviroment"
+			},
+			"response": []
+		},
+		{
+			"name": "order_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"orderId\", jsonData.order_id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"{{itemId}}\": \"on\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/order",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"order"
+					]
+				},
+				"description": "create an order with the items, following the example of {\"ItemId\": on}"
 			},
 			"response": []
 		},
@@ -156,26 +226,16 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://fickle-rishattest.tk/api/v1/order/:orderId",
-					"protocol": "https",
+					"raw": "{{url}}/order/{{orderId}}",
 					"host": [
-						"fickle-rishattest",
-						"tk"
+						"{{url}}"
 					],
 					"path": [
-						"api",
-						"v1",
 						"order",
-						":orderId"
-					],
-					"variable": [
-						{
-							"key": "orderId",
-							"value": null
-						}
+						"{{orderId}}"
 					]
 				},
-				"description": "get order info with id=orderId"
+				"description": "get order info with id from environment"
 			},
 			"response": []
 		},
@@ -185,26 +245,16 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "https://fickle-rishattest.tk/api/v1/order/:orderId",
-					"protocol": "https",
+					"raw": "{{url}}/order/{{orderId}}",
 					"host": [
-						"fickle-rishattest",
-						"tk"
+						"{{url}}"
 					],
 					"path": [
-						"api",
-						"v1",
 						"order",
-						":orderId"
-					],
-					"variable": [
-						{
-							"key": "orderId",
-							"value": null
-						}
+						"{{orderId}}"
 					]
 				},
-				"description": "buy order with id=orderId"
+				"description": "buy order with id from environment"
 			},
 			"response": []
 		}

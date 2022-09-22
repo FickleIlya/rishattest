@@ -48,7 +48,7 @@ class GetOrderId(View):
 
     def get(self, request, *args, **kwargs):
         request = self.request.GET
-        order_id = requests.post(f'https://fickle-rishattest.tk/api/v1/order', data=request).json()["order_id"]
+        order_id = requests.post(f'localhost:8000/api/v1/order', data=request).json()["order_id"]
         url = reverse('core:order_info', kwargs={'order_id': order_id})
 
         return HttpResponseRedirect(url)
