@@ -1,5 +1,7 @@
 # rishattest
 
+URL: fickle-rishattest.tk
+
 WEB routes
 
 1) /items - items list
