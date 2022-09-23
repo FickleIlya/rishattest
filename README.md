@@ -1,5 +1,6 @@
 # rishattest
-
+This is test task from Rishat.Had create an app to buy things using the stripe api.
+<br>
 URL: fickle-rishattest.tk
 
 WEB routes
