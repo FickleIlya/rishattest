@@ -1,5 +1,11 @@
 # rishattest
 
+WEB routes
+
+1) /items - items list
+2) /item/{{int:itemId}} - item info
+
+
 APIs routes
 
 you can see all api routes in rishatapi.postman_collection.json file
