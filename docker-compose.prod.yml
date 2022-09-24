@@ -1,6 +1,12 @@
 version: '3.8'
 
 services:
+  db:
+    image: postgres:14.5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env_prod_db
   app:
     build:
       context: ./code
@@ -16,6 +22,8 @@ services:
     command: sh -c "python manage.py makemigrations &&
              python manage.py migrate &&
              gunicorn config.wsgi:application --bind 0.0.0.0:8000"
+    depends:
+      - db
     networks:
       - app-network
 
@@ -50,6 +58,7 @@ services:
       - app-network
     command: certonly --webroot --webroot-path=/var/www/html --email fickle041@gmail.com --agree-tos --no-eff-email --force-renewal -d fickle-rishattest.tk -d www.fickle-rishattest.tk
 volumes:
+  postgres_data:
   code:
   nginx:
   certbot-etc:
