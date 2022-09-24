@@ -3,10 +3,12 @@ version: '3.8'
 services:
   db:
     image: postgres:14.5
+    container_name: db_container
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
       - ./.env_prod_db
+
   app:
     build:
       context: ./code
@@ -57,6 +59,7 @@ services:
     networks:
       - app-network
     command: certonly --webroot --webroot-path=/var/www/html --email fickle041@gmail.com --agree-tos --no-eff-email --force-renewal -d fickle-rishattest.tk -d www.fickle-rishattest.tk
+
 volumes:
   postgres_data:
   code:
@@ -75,6 +78,7 @@ volumes:
      type: none
      device: home/admin/rishattest/nginx/dhparam/
      o: bind
+
 networks:
   app-network:
     driver: bridge
